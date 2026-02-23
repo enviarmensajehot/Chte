@@ -1,88 +1,90 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video</title>
 
-  <!-- GoatCounter -->
-  <script data-goatcounter="https://eliasrd.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"></script>
+<style>
+body {
+  margin: 0;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
 
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
 
-    .video-container {
-      position: relative;
-      width: 100%;
-      max-width: 500px;
-    }
+video {
+  width: 100%;
+  display: block;
+}
 
-    video {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      display: block;
-    }
+.popup {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  z-index: 30;
+}
 
-    /* Botón superior */
-    .download-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 14px;
-      z-index: 20;
-    }
-
-    .download-btn:hover {
-      background: rgba(0,0,0,0.9);
-    }
-
-    .click-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-    }
-  </style>
+.popup button {
+  margin-top: 12px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
 <div class="video-container">
-
-  <!-- Botón que envía al smartlink -->
-  <a href="https://soundfrankcoke.com/sniepp8pt?key=ce3b26de79e141751b54f0ad2b1df813"
-     target="_blank"
-     class="download-btn">
-    Descargar
-  </a>
-
-  <video autoplay muted loop playsinline controls>
+  <video id="player" controls>
     <source src="video.mp4" type="video/mp4">
   </video>
 
-  <!-- Capa principal clickeable -->
-  <a href="https://soundfrankcoke.com/sniepp8pt?key=ce3b26de79e141751b54f0ad2b1df813"
-     target="_blank"
-     class="click-layer">
-  </a>
-
+  <div id="popup" class="popup">
+    <div>¿Quieres continuar viendo?</div>
+    <button onclick="resumeVideo()">Continuar</button>
+    <button onclick="window.open('https://tusitio.com', '_blank')">
+      Ir a oferta
+    </button>
+  </div>
 </div>
+
+<script>
+const video = document.getElementById("player");
+const popup = document.getElementById("popup");
+
+let triggered = false;
+const randomTime = Math.floor(Math.random() * 11) + 10; // 10–20s
+
+video.addEventListener("timeupdate", () => {
+  if (!triggered && video.currentTime >= randomTime) {
+    triggered = true;
+    video.pause();
+    popup.style.display = "flex";
+  }
+});
+
+function resumeVideo() {
+  popup.style.display = "none";
+  video.play();
+}
+</script>
 
 </body>
 </html>
