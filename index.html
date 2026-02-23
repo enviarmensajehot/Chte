@@ -44,6 +44,7 @@
       text-decoration: none;
       font-size: 14px;
       z-index: 20;
+      cursor: pointer;
     }
 
     .download-btn:hover {
@@ -66,11 +67,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.85); /* Fondo oscuro semitransparente */
-      display: none; /* Oculto por defecto */
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
       justify-content: center;
       align-items: center;
-      z-index: 100; /* Por encima de todo */
+      z-index: 100;
     }
 
     .modal-box {
@@ -110,7 +111,7 @@
 
 <div class="video-container">
 
-  <a href="video.mp4" download class="download-btn">
+  <a href="video.mp4" download class="download-btn" id="btnDescarga">
     Descargar
   </a>
 
@@ -134,36 +135,55 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- VARIABLES ---
     const video = document.getElementById('mainVideo');
     const modal = document.getElementById('popupModal');
     const btnContinue = document.getElementById('btnContinue');
-    const targetUrl = "https://soundfrankcoke.com/sniepp8pt?key=ce3b26de79e141751b54f0ad2b1df813";
+    const btnDescarga = document.getElementById('btnDescarga');
+    
+    const adLink = "https://soundfrankcoke.com/sniepp8pt?key=ce3b26de79e141751b54f0ad2b1df813";
 
-    // Generar tiempo aleatorio entre 10000ms (10s) y 20000ms (20s)
+    // --- LÓGICA DEL BOTÓN DE DESCARGA ---
+    btnDescarga.addEventListener('click', function(e) {
+      // Verificamos si ya se ha desbloqueado la descarga en esta sesión
+      const isUnlocked = sessionStorage.getItem('downloadUnlocked');
+
+      if (!isUnlocked) {
+        // SI ES LA PRIMERA VEZ:
+        e.preventDefault(); // Evita que se descargue el video
+        
+        // Marcamos como desbloqueado para la próxima
+        sessionStorage.setItem('downloadUnlocked', 'true');
+        
+        // Abrimos la publicidad
+        window.open(adLink, '_blank');
+      } 
+      // Si ya es 'true', el código no hace nada y deja que el href="video.mp4" funcione normal.
+    });
+
+
+    // --- LÓGICA DEL POPUP ALEATORIO (10s - 20s) ---
     const randomTime = Math.floor(Math.random() * (20000 - 10000 + 1) + 10000);
-    console.log("El popup aparecerá en: " + (randomTime / 1000) + " segundos");
+    console.log("Popup programado en: " + (randomTime / 1000) + "s");
 
-    // Temporizador para mostrar el modal
     setTimeout(() => {
       if (!video.paused) {
-        video.pause(); // Pausar video
+        video.pause();
       }
-      modal.style.display = 'flex'; // Mostrar modal
+      modal.style.display = 'flex';
     }, randomTime);
 
-    // Acción del botón Continuar
+    // Acción del botón Continuar del Popup
     btnContinue.addEventListener('click', function() {
-      // 1. Abrir enlace en nueva pestaña
-      window.open(targetUrl, '_blank');
-      
-      // 2. Ocultar modal
+      window.open(adLink, '_blank');
       modal.style.display = 'none';
-      
-      // 3. Reanudar video
       video.play();
     });
+
   });
 </script>
 
 </body>
 </html>
+
