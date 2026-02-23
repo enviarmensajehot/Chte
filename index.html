@@ -144,34 +144,36 @@
     
     const adLink = "https://soundfrankcoke.com/sniepp8pt?key=ce3b26de79e141751b54f0ad2b1df813";
 
+    // Nueva variable de control (se reinicia al cargar/recargar la página)
+    let downloadUnlocked = false;
+
     // --- LÓGICA DEL BOTÓN DE DESCARGA ---
     btnDescarga.addEventListener('click', function(e) {
-      // Verificamos si ya se ha desbloqueado la descarga en esta sesión
-      const isUnlocked = sessionStorage.getItem('downloadUnlocked');
-
-      if (!isUnlocked) {
-        // SI ES LA PRIMERA VEZ:
-        e.preventDefault(); // Evita que se descargue el video
+      if (!downloadUnlocked) {
+        // PRIMER CLIC: Bloqueamos descarga y abrimos publicidad
+        e.preventDefault(); 
         
-        // Marcamos como desbloqueado para la próxima
-        sessionStorage.setItem('downloadUnlocked', 'true');
-        
-        // Abrimos la publicidad
+        downloadUnlocked = true; // Desbloqueamos para el siguiente clic
         window.open(adLink, '_blank');
-      } 
-      // Si ya es 'true', el código no hace nada y deja que el href="video.mp4" funcione normal.
+        
+        console.log("Primer clic: Publicidad abierta. Siguiente clic descargará.");
+      } else {
+        // SEGUNDO CLIC: No hacemos preventDefault, por lo que el "href" y "download" funcionan
+        console.log("Segundo clic: Iniciando descarga...");
+        // Opcional: Si quieres que después de descargar vuelva a bloquearse, 
+        // puedes poner: downloadUnlocked = false;
+      }
     });
 
 
     // --- LÓGICA DEL POPUP ALEATORIO (10s - 20s) ---
     const randomTime = Math.floor(Math.random() * (20000 - 10000 + 1) + 10000);
-    console.log("Popup programado en: " + (randomTime / 1000) + "s");
 
     setTimeout(() => {
-      if (!video.paused) {
+      if (video) {
         video.pause();
+        modal.style.display = 'flex';
       }
-      modal.style.display = 'flex';
     }, randomTime);
 
     // Acción del botón Continuar del Popup
@@ -186,4 +188,5 @@
 
 </body>
 </html>
+
 
