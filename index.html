@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video</title>
 
+<!-- GoatCounter -->
+<script data-goatcounter="https://eliasrd.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
 <style>
 body {
   margin: 0;
@@ -27,6 +31,12 @@ video {
   display: block;
 }
 
+.click-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
 .popup {
   position: absolute;
   inset: 0;
@@ -41,7 +51,7 @@ video {
 
 .popup button {
   margin-top: 12px;
-  padding: 8px 14px;
+  padding: 10px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -52,16 +62,20 @@ video {
 <body>
 
 <div class="video-container">
-  <video id="player" controls>
+  <video id="player" autoplay muted loop playsinline controls>
     <source src="video.mp4" type="video/mp4">
   </video>
 
+  <!-- Smartlink en todo el video -->
+  <a href="https://soundfrankcoke.com/sniepp8pt?key=ce3b26de79e141751b54f0ad2b1df813"
+     target="_blank"
+     class="click-layer">
+  </a>
+
+  <!-- Popup continuar -->
   <div id="popup" class="popup">
-    <div>¿Quieres continuar viendo?</div>
+    <div>Haga click para continuar viendo</div>
     <button onclick="resumeVideo()">Continuar</button>
-    <button onclick="window.open('https://tusitio.com', '_blank')">
-      Ir a oferta
-    </button>
   </div>
 </div>
 
