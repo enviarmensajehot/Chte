@@ -22,7 +22,7 @@
     .video-container {
       position: relative;
       width: 100%;
-      max-width: 500px; /* ancho máximo estilo móvil */
+      max-width: 500px;
     }
 
     video {
@@ -30,6 +30,24 @@
       height: auto;
       object-fit: contain;
       display: block;
+    }
+
+    /* Botón superior */
+    .download-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      z-index: 20;
+    }
+
+    .download-btn:hover {
+      background: rgba(0,0,0,0.9);
     }
 
     .click-layer {
@@ -46,14 +64,24 @@
 <body>
 
 <div class="video-container">
+
+  <!-- Botón que envía al smartlink -->
+  <a href="https://soundfrankcoke.com/sniepp8pt?key=ce3b26de79e141751b54f0ad2b1df813"
+     target="_blank"
+     class="download-btn">
+    Descargar
+  </a>
+
   <video autoplay muted loop playsinline controls>
     <source src="video.mp4" type="video/mp4">
   </video>
 
+  <!-- Capa principal clickeable -->
   <a href="https://soundfrankcoke.com/sniepp8pt?key=ce3b26de79e141751b54f0ad2b1df813"
      target="_blank"
      class="click-layer">
   </a>
+
 </div>
 
 </body>
